@@ -1,10 +1,21 @@
 <?php
 
+require_once "NubeAnalizer.php";
+/*
+include_once
+require_once
+*/
+
+// use Nube\NubeAnalizer;
 $txtBigText = "";
+
+$debugStr = "";
 
 if (isset($_POST["btnAnalizar"])) {
     //Aqui hacemos desastres
     $txtBigText = $_POST["txtBigText"];
+    $miNubeAnalizer = new Nube\NubeAnalizer($txtBigText);
+    $debugStr = $miNubeAnalizer->__toString();
 }
 
 ?>
@@ -33,6 +44,9 @@ if (isset($_POST["btnAnalizar"])) {
         <span style="font-size:3.5em;">Adios (10)</span>
         <span style="font-size:3em;">Amor (9)</span>
 
+    </section>
+    <section>
+        <?php echo $debugStr; ?>
     </section>
 </body>
 
