@@ -15,7 +15,28 @@ if (isset($_POST["btnAnalizar"])) {
     //Aqui hacemos desastres
     $txtBigText = $_POST["txtBigText"];
     $miNubeAnalizer = new Nube\NubeAnalizer($txtBigText);
-    $debugStr = $miNubeAnalizer->__toString();
+    $tmpArray = $miNubeAnalizer->analizar();
+    /* Use Case 1: Top 10
+    $top10 = 10;
+    $i = 0;
+    foreach ($tmpArray as $key => $value) {
+        $debugStr .= $key . " - " . $value . ", ";
+        $i++;
+        if ($i >= $top10) {
+            break;
+        }
+    }
+    */
+    /* Use Case 2: Solo lo que tiene valor 4
+    $valueToShow = 4;
+    foreach ($tmpArray as $key => $value) {
+        if ($value == $valueToShow) {
+            $debugStr .= $key . " - " . $value . ", ";
+        }
+    }
+    KISS -> Keep it simple #¢∞#
+    DRY -> Don´t Repeat yourself;
+    */
 }
 
 ?>
