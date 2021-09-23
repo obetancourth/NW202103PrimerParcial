@@ -18,7 +18,8 @@ class NubeAnalizer {
         $this->_words = explode(" ", $this->_txtToAnalize);
     }
 
-    public function analizar(){
+    public function analizar()
+    {
         $tmpArrPalabrasFreq = array();
         foreach ( $this->_words as $palabra ) {
             if (isset($tmpArrPalabrasFreq[$palabra])) {
@@ -38,6 +39,15 @@ class NubeAnalizer {
             break;
         }
         $this->_analizedWords = $tmpArrPalabrasFreq;
+    }
+
+    public function obtenerPalabras()
+    {
+        return array(
+            "min"=>$this->min,
+            "max"=>$this->max,
+            "words"=> $this->_analizedWords
+        );
     }
 
     /*

@@ -8,14 +8,26 @@ require_once
 
 // use Nube\NubeAnalizer;
 $txtBigText = "";
-
 $debugStr = "";
+$fontSizeMax = 5;
+$fontSizeMin = 0.5;
 
 if (isset($_POST["btnAnalizar"])) {
     //Aqui hacemos desastres
     $txtBigText = $_POST["txtBigText"];
     $miNubeAnalizer = new Nube\NubeAnalizer($txtBigText);
-    $tmpArray = $miNubeAnalizer->analizar();
+    $miNubeAnalizer->analizar();
+    $datos = $miNubeAnalizer->obtenerPalabras();
+    //$debugStr = json_encode($datos, JSON_PRETTY_PRINT);
+    $htmlBuffer = array();
+    /*  y = maxFontSize * frecuencia / maxfrecuencia  */
+    $max = $datos["max"];
+    foreach ($datos["words"] as $palabra => $frecuencia) {
+        $fontSize = $fontSizeMax * ($frecuencia / $max);
+        $fontSize = ($fontSize < $fontSizeMin) ? $fontSizeMin : $fontSize;
+        $htmlBuffer[] = '<span style="font-size:' . $fontSize . 'em">' . $palabra . ' (' . $frecuencia . ') &nbsp;</span>';
+    }
+    $debugStr = implode("", $htmlBuffer);
     /* Use Case 1: Top 10
     $top10 = 10;
     $i = 0;
@@ -54,18 +66,11 @@ if (isset($_POST["btnAnalizar"])) {
     <h1>Nube de Palabras</h1>
     <form action="nubepalabras.php" method="POST">
         <label for="txtBigText">Texto a Analizar</label>
-        <br/>
-        <textarea id="txtBigText" name="txtBigText" placeholder="Texto a Analizar"
-        ><?php echo $txtBigText; ?></textarea>
-        <br/>
+        <br />
+        <textarea id="txtBigText" name="txtBigText" placeholder="Texto a Analizar"><?php echo $txtBigText; ?></textarea>
+        <br />
         <button type="submit" name="btnAnalizar" value="analizar">Analizar</button>
     </form>
-    <section>
-        <span style="font-size:4em;">Hola (18)</span>
-        <span style="font-size:3.5em;">Adios (10)</span>
-        <span style="font-size:3em;">Amor (9)</span>
-
-    </section>
     <section>
         <?php echo $debugStr; ?>
     </section>
