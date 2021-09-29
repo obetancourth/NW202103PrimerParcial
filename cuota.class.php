@@ -36,5 +36,25 @@ class Cuota {
     {
         return $this->_saldoFinal;
     }
+    public function getCuota()
+    {
+        return $this->_cuota;
+    }
+    public function getInteres()
+    {
+        return $this->_interes;
+    }
+    public function getCapital()
+    {
+        return $this->_capital;
+    }
+    public function getSaldoAntes()
+    {
+        return $this->_saldoAntes;
+    }
+    public function getTasa()
+    {
+        return $this->_tasa;
+    }
 }
 ?>

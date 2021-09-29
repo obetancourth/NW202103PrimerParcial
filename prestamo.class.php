@@ -1,6 +1,7 @@
 <?php
-require_once("cuota.class.php");
 namespace BCO;
+
+require_once("cuota.class.php");
 
 use BCO\Cuota;
 class Prestamo{
@@ -26,6 +27,33 @@ class Prestamo{
             $this->_cuotas[] = $tmpCuota;
             $saldo = $tmpCuota->getSaldoFinal();
         }
+    }
+
+    public function getCuotas(){
+        return $this->_cuotas;
+    }
+
+    public function exportWithAdapter(&$fnAdaptador) {
+        $arrObjeto = array(
+        "capital" => $this->_capital,
+        "periodos" => $this->_periodos,
+        "tasa" => $this->_tasa,
+        "valorFuturo" => $this->_valorFuturo,
+        "cuotanivelada" => $this->_cuotanivelada,
+        "cuotas" => array()
+        );
+        foreach ($this->_cuotas as $oCuota) {
+            $arrObjeto["cuotas"][] = array(
+                "periodo" => $oCuota->getPeriodo(),
+                "cuota" => $oCuota->getCuota(),
+                "interes" => $oCuota->getInteres(),
+                "capital" => $oCuota->getCapital(),
+                "saldoFinal" => $oCuota->getSaldoFinal(),
+                "saldoAntes" => $oCuota->getSaldoAntes(),
+                "tasa" => $oCuota->getTasa()
+            );
+        }
+        return $fnAdaptador($arrObjeto);
     }
 }
 ?>

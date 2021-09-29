@@ -1,13 +1,66 @@
 <?php
+
+use BCO\Prestamo;
+
+require_once 'prestamo.class.php';
+require_once 'cuota.class.php';
+
+
 $numCapital = 100000;
 $numPeriodos = 12;
 $numInteres = 0.25;
 
+$oPrestamo = null;
 if (isset($_POST["btnCalcular"])) {
-    $numCapital = intval($_POST["numCapital"]);
+    $numCapital = floatval($_POST["numCapital"]);
     $numPeriodos = intval($_POST["numPeriodos"]);
     $numInteres = floatval($_POST["numInteres"]);
+
+    $oPrestamo = new Prestamo($numCapital, $numPeriodos, $numInteres);
+    $oPrestamo->calcularPrestamo();
 }
+
+$debugAdapter = function ($arrDatos) {
+    return print_r($arrDatos, true);
+};
+
+$jsonAdapter = function ($arrDatos) {
+    return json_encode($arrDatos, JSON_PRETTY_PRINT);
+};
+
+
+
+$tableRowAdapter = function ($arrDatos) {
+    $tmpRows = array();
+    foreach ($arrDatos["cuotas"] as $arrItem) {
+        $tmpRows[] = sprintf(
+            "<tr><td>%s</td><td>%d</td><td>%f</td><td>%f</td><td>%f</td></tr>",
+            $arrItem["periodo"],
+            $arrItem["cuota"],
+            $arrItem["interes"],
+            $arrItem["capital"],
+            $arrItem["saldoFinal"]
+        );
+    }
+    return implode("", $tmpRows);
+}
+
+$csvRowAdapter = function ($arrDatos) {
+    $tmpRows = array();
+    foreach ($arrDatos["cuotas"] as $arrItem) {
+        $tmpRows[] = sprintf(
+            "<tr><td>%s</td><td>%d</td><td>%f</td><td>%f</td><td>%f</td></tr>",
+            $arrItem["periodo"],
+            $arrItem["cuota"],
+            $arrItem["interes"],
+            $arrItem["capital"],
+            $arrItem["saldoFinal"]
+        );
+    }
+    return implode("\n", $tmpRows);
+}
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,13 +110,15 @@ if (isset($_POST["btnCalcular"])) {
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+        <?php
+        if ($oPrestamo !== null) {
+            echo $oPrestamo->exportWithAdapter($tableRowAdapter);
+            // echo "<hr/>";
+            // echo $oPrestamo->exportWithAdapter($debugAdapter);
+            // echo "<hr/>";
+            // echo $oPrestamo->exportWithAdapter($jsonAdapter);
+        } // end If oPrestamo
+        ?>
         </tbody>
     </table>
 </body>
