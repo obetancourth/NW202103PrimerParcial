@@ -1,7 +1,10 @@
 <?php
+require_once 'businesslogic.php';
 $txtNombre = "";
 $txtCuenta = "";
 $txtCarrera = "";
+
+$alumnos = getRegistros();
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,18 +42,21 @@ $txtCarrera = "";
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Cuenta</td>
-                        <td>Nombre</td>
-                        <td>Carrera</td>
-                        <td>Campus</td>
-                        <td>Beca</td>
-                        <td>
-                            <a href>Editar</a>&nbsp;
-                            <a href>Consultar</a>&nbsp;
-                            <a href>Visualizar</a>
-                        </td>
-                    </tr>
+                    <?php
+                    foreach ($alumnos as $row) { ?>
+                        <tr>
+                            <td><?php echo $row["CUENTA"]; ?></td>
+                            <td><?php echo $row["NOMBRE"]; ?></td>
+                            <td><?php echo $row["CARRERA"]; ?></td>
+                            <td><?php echo $row["CAMPUS"]; ?></td>
+                            <td><?php echo $row["BECAS"]; ?></td>
+                            <td>
+                                <a href>Editar</a>&nbsp;
+                                <a href>Consultar</a>&nbsp;
+                                <a href>Visualizar</a>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
                 <tfooter></tfooter>
             </table>
