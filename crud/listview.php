@@ -38,7 +38,7 @@ $alumnos = getRegistros();
                         <th>Carrera</th>
                         <th>Campus</th>
                         <th>Beca</th>
-                        <th><a href>Registrar</a></th>
+                        <th><a href="formview.php?cuenta=na&mode=INS">Registrar</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,9 +51,9 @@ $alumnos = getRegistros();
                             <td><?php echo $row["CAMPUS"]; ?></td>
                             <td><?php echo $row["BECAS"]; ?></td>
                             <td>
-                                <a href>Editar</a>&nbsp;
-                                <a href>Consultar</a>&nbsp;
-                                <a href>Visualizar</a>
+                                <a href="formview.php?cuenta=<?php echo $row["CUENTA"]; ?>&mode=UPD">Editar</a>&nbsp;
+                                <a href="formview.php?cuenta=<?php echo $row["CUENTA"]; ?>&mode=DSP">Consultar</a>&nbsp;
+                                <a href="formview.php?cuenta=<?php echo $row["CUENTA"]; ?>&mode=DEL">Eliminar</a>
                             </td>
                         </tr>
                     <?php } ?>

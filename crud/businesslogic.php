@@ -29,17 +29,50 @@ function agregaRegistro($cuenta, $nombre, $campus, $carrera, $becas)
 
 }
 
-function actualizarRegistro() {
+function actualizarRegistro(
+    $nombre,
+    $carrera,
+    $campus,
+    $becas,
+    $cuenta
+) {
+    $sqlstr = "UPDATE ALUMNOS set  NOMBRE = '%s',
+        CARRERA = '%s', CAMPUS = '%s', BECAS = '%s
+        where CUENTA = '%s';"
+    ;
+    $sqlstr = sprintf(
+        $sqlstr,
+        $nombre,
+        $carrera,
+        $campus,
+        $becas,
+        $cuenta
+    );
+
+    return AlumosModel::executeNonQuery($sqlstr);
 
 }
 
-function obtenerRegistro() {
-
+function obtenerRegistro($cuenta)
+{
+    $alumnosSql = "SELECT * FROM ALUMNOS where CUENTA='%s';";
+    return AlumosModel::getRegistro(
+        sprintf(
+            $alumnosSql,
+            $cuenta
+        )
+    );
 }
 
-function eliminarRegistro() {
-
-
+function eliminarRegistro($cuenta) 
+{
+    $sqlstr = "DELETE FROM ALUMNOS where CUENTA='%s';";
+    return AlumosModel::executeNonQuery(
+        sprintf(
+            $sqlstr,
+            $cuenta
+        )
+    );
 }
 
 function incializarTabla() {
@@ -54,4 +87,9 @@ function incializarTabla() {
     AlumosModel::executeNonQuery($sqlCreate);
 }
 
+function irALista()
+{
+    header("location:listview.php");
+    die();
+}
 ?>
