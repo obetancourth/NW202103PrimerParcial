@@ -37,7 +37,7 @@ function actualizarRegistro(
     $cuenta
 ) {
     $sqlstr = "UPDATE ALUMNOS set  NOMBRE = '%s',
-        CARRERA = '%s', CAMPUS = '%s', BECAS = '%s
+        CARRERA = '%s', CAMPUS = '%s', BECAS = '%s'
         where CUENTA = '%s';"
     ;
     $sqlstr = sprintf(
@@ -90,6 +90,12 @@ function incializarTabla() {
 function irALista()
 {
     header("location:listview.php");
+    die();
+}
+
+function irAListaConMensaje($mensaje, $to)
+{
+    echo '<script>alert("'.$mensaje.'");window.location.assign("'.$to.'")</script>';
     die();
 }
 ?>
